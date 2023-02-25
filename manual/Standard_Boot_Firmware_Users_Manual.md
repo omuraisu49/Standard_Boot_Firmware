@@ -1,10 +1,18 @@
 # Standrd Boot Firmware
-This library shows usage example of standard boot firmware.
+This library shows usage example of standard boot firmware, running on Renesas RA Flexible Software Package (FSP).
 
 # Referenced document
 - Renesas RA Family "System Specifications for Standard Boot Firmware" (R01AN5372)
 - Renesas RA Family "System Specifications for Standard Boot Firmware" (R01AN6347)
 - Renesas RA Family "Standard Boot Firmware for the RA family MCUs Based on Arm® Cortex®-M33" (R01AN5562)
+
+# How to use
+1. Download latest version of library pack file from [Release](https://github.com/omuraisu49/Standard_Boot_Firmware/releases) page.
+2. On e2studio, select **File** > **Import** > **General** > **CMSIS Pack**.
+3. On CMSIS Pack import window, select downloaded pack file (.pack) and select **Renesas RA** as device family. Then click **Finish**.
+4. On FSP configurator, add **Standard Boot Firmware** module stack from **Stacks** tab > **New Stack** > **Standard Boot**.
+5. Configure the **Standard Boot Firmware** module and sub-module SCI UART module.
+6. Press **Generate Project Content**.
 
 # API List
 | Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.3) |
@@ -586,3 +594,6 @@ Checks read complete/error flags to indicate current operation status. If not as
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
 - Notes
     - None
+
+# Notes
+- Not intended for RTOS used applications.
