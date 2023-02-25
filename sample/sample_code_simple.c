@@ -16,13 +16,15 @@ trustzone_memory_boundary_info_t request_memory_boundary;
 
 void stdboot_example(void)
 {
+    fsp_err_t fsp_err = FSP_SUCCESS;
+
     /* Open driver */
-    /* Note: IOPORT and SCI module must be initialized before the boot firmware driver open */
+    /* Note: IOPORT and SCI module drive must be opened before the stdboot driver starts */
     STDBOOT_Open(&g_stdboot0_ctrl, &g_stdboot0_cfg);
 
     /* Open serial command interface */
     STDBOOT_TargetBootModeEnter(&g_stdboot0_ctrl);
-    R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+    R_BSP_SoftwareDelay(750, BSP_DELAY_UNITS_MILLISECONDS);
 
     fsp_err = STDBOOT_TargetSettingUp(&g_stdboot0_ctrl);
     if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
@@ -40,14 +42,14 @@ void stdboot_example(void)
     if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
 
     /* Read current DLM state */
-    if((g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_ENTRY))
+    if((g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_RA4E1_RA6E1) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_RA6T2))
     {
         fsp_err = STDBOOT_DLMStateRead(&g_stdboot0_ctrl, &current_dlm_state, 1000);
         if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
     }
 
     /* Read tz memory boundary info */
-    if((g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_ENTRY))
+    if((g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_RA4E1_RA6E1) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_RA6T2))
     {
         fsp_err = STDBOOT_TrustZoneMemoryBoundaryRead(&g_stdboot0_ctrl, &current_memory_boundary, 1000);
         if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
@@ -55,7 +57,7 @@ void stdboot_example(void)
 
 #if (ENABLE_WRRITE_OPERATION == 1U)
     /* Write tz memory boundary info */
-    if((g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_ENTRY))
+    if((g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_RA4E1_RA6E1) || (g_stdboot0_cfg.system_type == DEVICE_TYPE_RA_CM33_RA6T2))
     {
         request_memory_boundary.code_flash_secure_size       = 0x180000;
         request_memory_boundary.code_flash_secure_w_nsc_size = 0x200000;
@@ -81,9 +83,13 @@ void stdboot_example(void)
 
 #if (ENABLE_WRRITE_OPERATION == 1U)
     /* Program new firmware */
-    fsp_err = STDBOOT_MemoryProgram(&g_stdboot0_ctrl, <pointer to image strage>, <start addr>, <request size>, 10000);
+    fsp_err = STDBOOT_MemoryProgram(&g_stdboot0_ctrl, <start addr>, <request size>, <pointer to image strage>, 10000);
     if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
 #endif
+
+    /* Change UART baudrate */
+    fsp_err = STDBOOT_UARTBaudRateChange(&g_stdboot0_ctrl, BAUD_RATE_1500000_BPS, 1000);
+    if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
 
     /* Close serial command interface */
     STDBOOT_TargetBootModeExit(&g_stdboot0_ctrl);
