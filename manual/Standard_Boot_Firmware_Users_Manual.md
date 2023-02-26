@@ -1,10 +1,12 @@
-# Standrd Boot Firmware
+# Standard Boot Firmware
 This library shows usage example of standard boot firmware, running on Renesas RA Flexible Software Package (FSP).
+
 
 # Referenced document
 - Renesas RA Family "System Specifications for Standard Boot Firmware" (R01AN5372)
 - Renesas RA Family "System Specifications for Standard Boot Firmware" (R01AN6347)
 - Renesas RA Family "Standard Boot Firmware for the RA family MCUs Based on Arm® Cortex®-M33" (R01AN5562)
+
 
 # How to use
 1. Download latest version of library pack file from [Release](https://github.com/omuraisu49/Standard_Boot_Firmware/releases) page.
@@ -13,6 +15,7 @@ This library shows usage example of standard boot firmware, running on Renesas R
 4. On FSP configurator, add **Standard Boot Firmware** module stack from **Stacks** tab > **New Stack** > **Standard Boot**.
 5. Configure the **Standard Boot Firmware** module and sub-module SCI UART module.
 6. Press **Generate Project Content**.
+
 
 # API List
 | Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.3) |
@@ -48,6 +51,7 @@ This library shows usage example of standard boot firmware, running on Renesas R
 
 ✓ : Supported, \- : Not supported, △ : Untested
 
+
 # API Description
 ## STDBOOT_Open
 ```
@@ -66,7 +70,7 @@ Configures the STDBOOT driver based on the input configuration.
 ```
 fsp_err_t STDBOOT_Close (stdboot_ctrl_t* p_ctrl);
 ```
-Aborts previous session and revert the callback configuration to old one. Clears driver open flag.
+Aborts previous session and reverts the callback configuration to old one. Clears the driver open flag.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
 - Return values
@@ -79,7 +83,7 @@ Aborts previous session and revert the callback configuration to old one. Clears
 ```
 fsp_err_t STDBOOT_TargetReset (stdboot_ctrl_t* p_ctrl);
 ```
-Attempt to reset the target device. The reset pin, acvive level and hold time are based on the STDBOOT configuration.
+Attempts to reset the target device. The reset pin, active level and hold time are based on the STDBOOT configuration.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
 - Return values
@@ -92,20 +96,20 @@ Attempt to reset the target device. The reset pin, acvive level and hold time ar
 ```
 fsp_err_t STDBOOT_TargetBootModeEnter (stdboot_ctrl_t* p_ctrl);
 ```
-Attempt to enter the target device to SCI boot mode.
+Attempts to enter the target device to SCI boot mode.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
 - Return values
     - FSP_SUCCESS: Target boot mode entering attempted successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
 - Notes
-    - The MD pin will be kept the hold state after API return.
+    - The MD pin will be kept the hold state after API returns.
 
 ## STDBOOT_TargetBootModeExit
 ```
 fsp_err_t STDBOOT_TargetBootModeExit (stdboot_ctrl_t* p_ctrl);
 ```
-Attempt to exit SCI boot mode for target device.
+Attempts to exit SCI boot mode for target device.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
 - Return values
@@ -118,13 +122,13 @@ Attempt to exit SCI boot mode for target device.
 ```
 fsp_err_t STDBOOT_TargetSettingUp (stdboot_ctrl_t* p_ctrl);
 ```
-Attempt to starting up the SCI boot mode in target device.
+Attempts to starting up the SCI boot mode/interface in target device.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
 - Return values
     - FSP_SUCCESS: The SCI boot interface in target device opened successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
 - Notes
@@ -146,12 +150,12 @@ Changes UART baud rate with provided rate option. API sets the baud rate to targ
         - BAUD_RATE_2000000_BPS
         - BAUD_RATE_4000000_BPS
         - BAUD_RATE_6000000_BPS
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: UART baudrate changed successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: Invalid parameter received.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -165,11 +169,11 @@ fsp_err_t STDBOOT_InquiryCommandCheck (stdboot_ctrl_t* p_ctrl, uint32_t timeout_
 Checks inquiry command operation.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Inquiry command operation done successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -180,15 +184,15 @@ Checks inquiry command operation.
 ```
 fsp_err_t STDBOOT_DeviceSignatureRead (stdboot_ctrl_t* p_ctrl, device_signature_info_t* p_info, uint32_t timeout_ms);
 ```
-Reads the device signature infomation.
+Reads device signature information.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_info: Pointer to output buffer.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Device signature read successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -199,16 +203,16 @@ Reads the device signature infomation.
 ```
 fsp_err_t STDBOOT_AreaInformationRead (stdboot_ctrl_t* p_ctrl, memory_info_t* p_info, uint8_t request_num, uint32_t timeout_ms);
 ```
-Reads the area information.
+Reads flash area information.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_info: Pointer to output buffer.
     - request_num: Number of area to request.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Area information read successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -219,16 +223,16 @@ Reads the area information.
 ```
 fsp_err_t STDBOOT_MemoryErase (stdboot_ctrl_t* p_ctrl, uint32_t start_addr, uint32_t size, uint32_t timeout_ms);
 ```
-Configures the STDBOOT driver based on the input configuration.
+Erases flash memory.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - start_addr: Start address of erase area.
     - request_size: Request size of erase area.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Memory eraseed successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -246,11 +250,11 @@ Reads flash memory.
     - start_addr: Start address of read area.
     - request_size: Request size of read area.
     - p_buff: Pointer to output buffer.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Memory read successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -266,12 +270,12 @@ Programs flash memory.
     - p_ctrl: Pointer to stdboot control block.
     - start_addr: Start address of write area.
     - request_size: Request size of write area.
-    - p_buff: Pointer to souce data buffer.
-    - timout_ms: Timeout value in millisecond.
+    - p_buff: Pointer to source data buffer.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Memory programed successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -289,12 +293,12 @@ Gets CRC value of specified flash memory.
     - start_addr: Start address of read area.
     - request_size: Request size of read area.
     - p_buff: Pointer to output buffer.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: Memory CRC value received successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -309,12 +313,12 @@ Read current DLM state in target device.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_output: Pointer to outout variable.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: DLM state read successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -325,16 +329,16 @@ Read current DLM state in target device.
 ```
 fsp_err_t STDBOOT_DLMStateInitialize (stdboot_ctrl_t* p_ctrl, device_lifecycle_management_state_t current_state, uint32_t timeout_ms);
 ```
-Initialize DLM state, DPL=>SSD, NSECSD=>SSD, SSD=>SSD. The flash controler erases flash memory duing state initialization.
+Initialize DLM state, DPL=>SSD, NSECSD=>SSD, SSD=>SSD. The flash controller erases flash memory during the state initialization.
 - Input parameters
-    - p_ctrl: Pointer to stdboot control block
+    - p_ctrl: Pointer to stdboot control block.
     - current_state: Current DLM state.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: DLM state initialized successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -347,15 +351,15 @@ fsp_err_t STDBOOT_DLMStateTransit (stdboot_ctrl_t* p_ctrl, device_lifecycle_mana
 ```
 Transits DLM state, CM=>SSD, SSD=>NSECSD, NSECSD=>DPL, SSD/NSECSD/DPL=>LCK_DBG, LCK_DBG=>LCK_BOOT.
 - Input parameters
-    - p_ctrl: Pointer to stdboot control block
+    - p_ctrl: Pointer to stdboot control block.
     - current_state: Current DLM state.
     - next_state: DLM state you want to transit to.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: DLM state transit successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -368,15 +372,18 @@ fsp_err_t STDBOOT_DLMAuthKeySet (stdboot_ctrl_t* p_ctrl, dlm_auth_key_type_t key
 ```
 Installs DLM authentication key.
 - Input parameters
-    - p_ctrl: Pointer to stdboot control block
-    - key_type: DLM key Type to be installed. 
-    - key_data_info: Infomation of key data buffer.
-    - timout_ms: Timeout value in millisecond.
+    - p_ctrl: Pointer to stdboot control block.
+    - key_type: DLM key Type to be installed. Available key types are:
+        - DLM_AUTH_KEY_TYPE_SECDBG
+        - DLM_AUTH_KEY_TYPE_NONSECDBG
+        - DLM_AUTH_KEY_TYPE_RMA
+    - key_data_info: Information of key data buffer.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: DLM auth key installed successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -387,17 +394,17 @@ Installs DLM authentication key.
 ```
 fsp_err_t STDBOOT_DLMAuthKeyVerify (stdboot_ctrl_t* p_ctrl, dlm_auth_key_type_t key_type, uint8_t* result, uint32_t timeout_ms);
 ```
-Verifis the DLM authentication key.
+Verifies the DLM authentication key.
 - Input parameters
-    - p_ctrl: Pointer to stdboot control block
+    - p_ctrl: Pointer to stdboot control block.
     - key_type: DLM key Type to be installed. 
     - p_result: Pointer to result variable.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: DLM auth key verification done successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -408,19 +415,19 @@ Verifis the DLM authentication key.
 ```
 fsp_err_t STDBOOT_DLMAuthentication (stdboot_ctrl_t* p_ctrl, device_lifecycle_management_state_t current_state, device_lifecycle_management_state_t next_state, uint8_t* p_key_data, uint32_t key_length, uint32_t timeout_ms);
 ```
-Attempt to DLM authentication, to transit the DLM state, NSECSD=>SSD, DPL=>NSECSD, DPL=>RMA_REQ, RMA_REQ=>RMA_ACK, SSD=>RMA_REQ.
+Attempts to DLM authentication, to transit DLM state, NSECSD=>SSD, DPL=>NSECSD, DPL=>RMA_REQ, RMA_REQ=>RMA_ACK, SSD=>RMA_REQ.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - current_state: Current DLM state.
     - next_state: DLM state you want to transit to.
     - p_key_data: Pointer to key data.
     - key_length: Length of key data.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: DLM authentication done successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -431,16 +438,16 @@ Attempt to DLM authentication, to transit the DLM state, NSECSD=>SSD, DPL=>NSECS
 ```
 fsp_err_t STDBOOT_IDAuthentication (stdboot_ctrl_t* p_ctrl, uint8_t* p_id_code, uint32_t timeout_ms);
 ```
-Attempt to ID code authentication.
+Attempts to ID code authentication.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_id_code: Pointer to ID code data.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: ID code authentication done successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -451,18 +458,18 @@ Attempt to ID code authentication.
 ```
 fsp_err_t STDBOOT_UserKeySet (stdboot_ctrl_t* p_ctrl, uint32_t key_address, user_key_type_t key_type, key_data_info_t key_data_info, uint32_t timeout_ms);
 ```
-Installs user key.
+Installs user key to specified address.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - key_address: Address of key installation location.
     - key_type: DLM key type to be installed. 
-    - key_data_info: Infomation of key data buffer.
-    - timout_ms: Timeout value in millisecond.
+    - key_data_info: Information of key data buffer.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: User key installed successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -473,18 +480,18 @@ Installs user key.
 ```
 fsp_err_t STDBOOT_UserKeyVerify (stdboot_ctrl_t* p_ctrl, uint32_t key_address, user_key_type_t key_type, uint8_t* p_result, uint32_t timeout_ms);
 ```
-Verifies the user key.
+Verifies the user key installed in specified address.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block
     - key_address: Address of target key location 
     - key_type: DLM key Type to be installed. 
     - p_result: Pointer to result variable.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: User key verification done successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -499,12 +506,12 @@ Reads TrustZone® memory boundary information.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_info: Pointer to output info variable.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: TrustZone® memory boundary read successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -515,17 +522,17 @@ Reads TrustZone® memory boundary information.
 ```
 fsp_err_t STDBOOT_TrustZoneMemoryBoundarySet (stdboot_ctrl_t* p_ctrl, trustzone_memory_boundary_info_t info, uint32_t timeout_ms);
 ```
-Set TrustZone® memory boundary information.
+Sets TrustZone® memory boundary information.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block
     - info: Information of TZ memory boundary to be set.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: TrustZone® memory boundary set successfully.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_UNSUPPORTED: API not available for selected target device type.
     - FSP_ERR_INVALID_SIZE: Invalid memory boundary received.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
     - (Status code of STDBOOT standard)
@@ -536,7 +543,7 @@ Set TrustZone® memory boundary information.
 ```
 void STDBOOT_DirectPinControl (bsp_io_port_pin_t pin, bsp_io_level_t level);
 ```
-Controls level for the specified pin.
+Controls level for specified pin.
 - Input parameters
     - pin: Pin selection.
     - level: Level selection.
@@ -549,32 +556,60 @@ Controls level for the specified pin.
 ```
 fsp_err_t STDBOOT_DirectCommadSend (stdboot_ctrl_t* p_ctrl, control_packet_t* p_packet);
 ```
-Sends STDBOOT standarded pacekt data to target device.
+Sends STDBOOT standarded packet data to target device.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_packet: Pointer to packet information.
 - Return values
     - FSP_SUCCESS: Direct comamnd sent successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
 - Notes
     - This API executes blocking operation. The API may not return for up to 500ms.
+    - The packet information data must contain following information according to control_packet_t structure.
+      - command: Command code
+        - COMMAND_CODE_INQUIRY
+        - COMMAND_CODE_ERASE
+        - COMMAND_CODE_WRITE
+        - COMMAND_CODE_READ
+        - COMMAND_CODE_AUTHENTICATION
+        - COMMAND_CODE_BAUD_RATE_SETTING
+        - COMMAND_CODE_SIGNATURE_REQUEST
+        - COMMAND_CODE_AREA_INFO_REQUEST
+        - COMMAND_CODE_CRC
+        - COMMAND_CODE_KEY_SETTING
+        - COMMAND_CODE_KEY_VERIFY
+        - COMMAND_CODE_USER_KEY_SETTING
+        - COMMAND_CODE_USER_KEY_VERIFY
+        - COMMAND_CODE_DLM_STATE_REQUEST
+        - COMMAND_CODE_BOUNDARY_SETTING
+        - COMMAND_CODE_BOUNDARY_REQUEST
+        - COMMAND_CODE_INITIALIZE
+        - COMMAND_CODE_PARAMETER_SETTING
+        - COMMAND_CODE_PARAMETER_REQUEST
+        - COMMAND_CODE_DLM_TRANSIT
+      - direction: Indicates the type of command. For request command type, 0x01 will be inserted in first byte of the packet. For response command type, 0x81 will be inserted.
+        - COMMAND_DIRECTION_REQUEST
+        - COMMAND_DIRECTION_RESPONSE
+      - address1: Contains start address. Used only in Memory Erase, Write, Read and CRC command
+      - address2: Contains end address. Used only in Memory Erase, Write, Read and CRC command
+      - data: Pointer to data buffer. If data_length ≠ 0, it will be copied to command information area.
+      - data_length: Size of transfer data.
 
 ## STDBOOT_ModuleRead
 ```
 fsp_err_t STDBOOT_ModuleRead (stdboot_ctrl_t* p_ctrl, uint8_t* p_buff, uint32_t reuqest_size, uint8_t request_packet);
 ```
-Reads the data from target device.
+Starts reading operation.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
     - p_buff: Pointer to output buffer if STDBOOT packet data is not reuqested. 
     - request_size: Request size if STDBOOT packet data is not requested.
     - request_packet: Indicates if requests STDBOOT standard packet data. 0: Normal data, 1: STDBOOT standard packet data.
-    - timout_ms: Timeout value in millisecond.
 - Return values
-    - FSP_SUCCESS: Module read successfully
+    - FSP_SUCCESS: Module read started successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
 - Notes
     - This API executes non-blocking operation. STDBOOT_WaitReadComplete API should be used to indicate the current operation status. 
 
@@ -585,11 +620,11 @@ fsp_err_t STDBOOT_WaitReadComplete (stdboot_ctrl_t* p_ctrl, uint32_t timeout_ms)
 Checks read complete/error flags to indicate current operation status. If not asserted, wait for provided time.
 - Input parameters
     - p_ctrl: Pointer to stdboot control block.
-    - timout_ms: Timeout value in millisecond.
+    - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: UART RX completed successfully
     - FSP_ERR_NOT_OPEN: Driver not opened.
-    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stddboot config->uart_internal_error_code*.
+    - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
     - FSP_ERR_TIMEOUT: No response from target device in timeout period. 
     - FSP_ERR_INVALID_DATA: Invalid data received from target device.
 - Notes
