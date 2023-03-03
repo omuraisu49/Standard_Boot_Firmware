@@ -18,7 +18,7 @@ This library shows usage example of standard boot firmware, running on Renesas R
 
 
 # API List
-| Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.3) |
+| Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.4) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
 | [STDBOOT_Open](#STDBOOT_Open)                                               | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [STDBOOT_Close](#STDBOOT_Close)                                             | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
