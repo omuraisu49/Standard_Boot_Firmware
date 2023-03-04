@@ -18,7 +18,7 @@ This library shows usage example of standard boot firmware, running on Renesas R
 
 
 # API List
-| Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.4) |
+| Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.5) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
 | [STDBOOT_Open](#STDBOOT_Open)                                               | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [STDBOOT_Close](#STDBOOT_Close)                                             | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -55,7 +55,7 @@ This library shows usage example of standard boot firmware, running on Renesas R
 # API Description
 ## STDBOOT_Open
 ```
-fsp_err_t STDBOOT_Open (stdboot_ctrl_t* p_ctrl, stdboot_cfg_t* p_cfg);
+fsp_err_t STDBOOT_Open (stdboot_ctrl_t* p_ctrl, stdboot_cfg_t const* p_cfg);
 ```
 Configures the STDBOOT driver based on the input configuration.
 - Input parameters
@@ -136,7 +136,7 @@ Attempts to starting up the SCI boot mode/interface in target device.
 
 ## STDBOOT_UARTBaudRateChange
 ```
-fsp_err_t STDBOOT_UARTBaudRateChange (stdboot_ctrl_t* p_ctrl, baud_rate_option_t option, uint32_t timeout_ms);
+fsp_err_t STDBOOT_UARTBaudRateChange(stdboot_ctrl_t* p_ctrl, baud_rate_option_t option, uint8_t host_bitrate_modulation, uint32_t host_baudrate_error_rate_persent_x_1000, uint32_t timeout_ms)
 ```
 Changes UART baud rate with provided rate option. API sets the baud rate to target device first, and then change the baud rate on HOST side.
 - Input parameters
@@ -150,6 +150,8 @@ Changes UART baud rate with provided rate option. API sets the baud rate to targ
         - BAUD_RATE_2000000_BPS
         - BAUD_RATE_4000000_BPS
         - BAUD_RATE_6000000_BPS
+    - host_bitrate_modulation: Enables bitrate modulation for HOST. 0: Disable, 1: Enable.
+    - host_baudrate_error_rate_persent_x_1000: Baudrate error rate in persent x 1000. E.g., 5% => 5000.
     - timeout_ms: Timeout value in millisecond.
 - Return values
     - FSP_SUCCESS: UART baudrate changed successfully
@@ -593,7 +595,7 @@ Sends STDBOOT standarded packet data to target device.
         - COMMAND_DIRECTION_RESPONSE
       - address1: Contains start address. Used only in Memory Erase, Write, Read and CRC command
       - address2: Contains end address. Used only in Memory Erase, Write, Read and CRC command
-      - data: Pointer to data buffer. If data_length ≠ 0, it will be copied to command information area.
+      - p_data: Pointer to data buffer. If data_length ≠ 0, it will be copied to command information area.
       - data_length: Size of transfer data.
 
 ## STDBOOT_ModuleRead

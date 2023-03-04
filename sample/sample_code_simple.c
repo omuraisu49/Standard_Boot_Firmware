@@ -88,7 +88,7 @@ void stdboot_example(void)
 #endif
 
     /* Change UART baudrate */
-    fsp_err = STDBOOT_UARTBaudRateChange(&g_stdboot0_ctrl, BAUD_RATE_1500000_BPS, 1000);
+    fsp_err = STDBOOT_UARTBaudRateChange(&g_stdboot0_ctrl, BAUD_RATE_1500000_BPS, false, 5000, 1000);
     if(FSP_SUCCESS != fsp_err){ __BKPT(0);}
 
     /* Close serial command interface */
