@@ -18,7 +18,7 @@ This library shows usage example of standard boot firmware, running on Renesas R
 
 
 # API List
-| Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.5) |
+| Name | RA CM4 | RA CM23 | RA CM33 <br> RA4M2/RA4M3 <br> RA6M4/RA6M5 | RA CM33 <br> RA4E1/RA6E1 | RA CM33 <br> RA6T2 | Support Status <br> (Version0.9.6) |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
 | [STDBOOT_Open](#STDBOOT_Open)                                               | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [STDBOOT_Close](#STDBOOT_Close)                                             | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -567,7 +567,7 @@ Sends STDBOOT standarded packet data to target device.
     - FSP_ERR_NOT_OPEN: Driver not opened.
     - FSP_ERR_INTERNAL: Low layer module error occurred. Please check the error code in *stdboot config->uart_internal_error_code*.
 - Notes
-    - This API executes blocking operation. The API may not return for up to 500ms.
+    - This API executes blocking operation. Timeout value (100ms + 2ms x transfer data size) is applied internally for data transmission.
     - The packet information data must contain following information according to control_packet_t structure.
       - command: Command code
         - COMMAND_CODE_INQUIRY
